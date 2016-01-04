@@ -139,6 +139,52 @@ version: 0.0.1
                   "result":0(失败)1(成功),
                   "errorMsg":失败原因
                 }
+  /getContacts:
+    description: 获取联系人列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"id":1,"nickName":昵称,"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机},
+                          {"id":2,"nickName":昵称,"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机},{}...] 
+                } 
+  /getContactDetail:
+    description: 获取联系人
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer 
+          example: 1
+          required: true
+          description: 用于获取用户详情
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data": {"id":1(用户id),"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机,
+                          "nickName":昵称,"sex":0男1女,"regTime":(注册时间)"2015-11-11 00:00:00"}
+                }
   /showAccount:
     description: 查看账单
     post:
@@ -163,6 +209,45 @@ version: 0.0.1
                       },
                       {},...]
                 } 
+  /getAllTruckTypes:
+    description: 获取所有车辆类型
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因 ,
+                  "data": [{"type":0(类型),"name":"面包车"},{"type":1(类型),"name":"敞篷车"},...]
+                }
+  /getAllLengthTypes:
+    description: 获取所有车辆长度类型
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因 ,
+                  "data": [{"type":0(类型),"name":"5-6米"},{"type":1(类型),"name":"6-10米"},...]
+                }
+  /getAllCapacityTypes:
+    description: 获取所有载重类型
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因 ,
+                  "data": [{"type":0(类型),"name":"5-6吨"},{"type":1(类型),"name":"6-10吨"},...]
+                }
 /Shipper:
   /placeOrder:
     description: 下单
@@ -367,7 +452,7 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         id:
-          displayName: 订单id
+          displayName: id
           type: integer
           example: 1
           required: true
@@ -392,7 +477,7 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         money:
-          displayName: 金额
+          displayName: money
           type: integer
           example: 23.3
           required: true
@@ -405,87 +490,8 @@ version: 0.0.1
                 {
                   "result": 0(失败),1(成功)
                   "errorMsg": 失败的原因	
-                }
-  /getContacts:
-    description: 获取联系人列表
-    post:
-      queryParameters:
-        token:
-          displayName: token
-          type: string 
-          example: sdfs234rrjkn2IFO
-          required: true
-          description: 用于识别用户
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result":0(失败),1(成功),
-                  "data":[{"id":1,"nickName":昵称,"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机},
-                          {"id":2,"nickName":昵称,"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机},{}...] 
                 }	
-  /getContactDetail:
-    description: 获取联系人
-    post:
-      queryParameters:
-        id:
-          displayName: 用户id
-          type: integer 
-          example: 1
-          required: true
-          description: 用于获取用户详情
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result":0(失败),1(成功),
-                  "data": {"id":1(用户id),"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机,
-                          "nickName":昵称,"sex":0男1女,"regTime":(注册时间)"2015-11-11 00:00:00"}
-                }	
-/Driver:
-  /getAllTruckTypes:
-    description: 获取所有车辆类型
-    post:
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result": 0(失败),1(成功),
-                  "errorMsg": 失败的原因	,
-                  "data": [{"type":0(类型),"name":"面包车"},{"type":1(类型),"name":"敞篷车"},...]
-                }
-  /getAllLengthTypes:
-    description: 获取所有车辆长度类型
-    post:
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result": 0(失败),1(成功),
-                  "errorMsg": 失败的原因	,
-                  "data": [{"type":0(类型),"name":"5-6米"},{"type":1(类型),"name":"6-10米"},...]
-                }
-  /getAllCapacityTypes:
-    description: 获取所有载重类型
-    post:
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result": 0(失败),1(成功),
-                  "errorMsg": 失败的原因	,
-                  "data": [{"type":0(类型),"name":"5-6吨"},{"type":1(类型),"name":"6-10吨"},...]
-                }
+/driver:
   /setTruckInfo:
     description: 设置车辆信息
     post:
@@ -497,31 +503,35 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         truckNum:
-          displayName: 车牌号
+          displayName: truckNum
           type: string
           example: 苏Asdf
           required: true
           description: 车牌号
-        type:
-          displayName: 车辆类型
+        truckType:
+          displayName: type
           required: true
           example: 0
           type: integer
-        length:
-          displayName: 车长类型
+          description: 车辆类型
+        lengthType:
+          displayName: lengthType
           type: integer
           required: true
           example: 0
-        capacity:
+          description: 长度类型
+        capacityType:
           type: integer
           required: true
           example: 0
-          displayName: 载重类型
+          displayName: capacityType
+          description: 载重类型
         phoneNum:
           type: string
           required: true
           example: 12121212
-          displayName: 随车电话
+          displayName: phoneNum
+          description: 随车电话
       responses:
         200:
           body:
