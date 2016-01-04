@@ -139,6 +139,30 @@ version: 0.0.1
                   "result":0(失败)1(成功),
                   "errorMsg":失败原因
                 }
+  /showAccount:
+    description: 查看账单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功)
+                  "data":[
+                      {
+                      "type":(账单类型)0表示充值 1表示提现 2表示订单, "time":(交易时间), "money":12(金额),
+                      "order"(只有type为2时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
+                      },
+                      {},...]
+                } 
 /Shipper:
   /placeOrder:
     description: 下单
@@ -229,19 +253,19 @@ version: 0.0.1
             required: true
             description: 用于识别用户
           id:
-            displayName: 订单id
+            displayName: id
             type: integer
             example: 2015121312423
             required: true
             description: 要评论的订单
           evaluateType:
-            displayName: 评价类型
+            displayName: evaluateType
             type: integer
             example: 0(差评),1(好评)
             required: true
             description: 评价类型
           evaluate:
-            displayName: 评价
+            displayName: evaluate
             type: string
             example: 司机挺好的
             required: false
@@ -266,7 +290,7 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         type:
-          displayName: 类型
+          displayName: type
           description: 0表示尚未开始,1表示正在进行,2表示已经完成,3表示被取消
           required: true
           example: 0
@@ -293,7 +317,7 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         id:
-          displayName: 订单id
+          displayName: id
           type: integer
           example: 2015121312423
           required: true
@@ -318,7 +342,7 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         id:
-          displayName: 订单id
+          displayName: id
           type: integer
           example: 2015121312423
           required: true
@@ -332,30 +356,6 @@ version: 0.0.1
                   "result": 0(失败),1(成功),2(pending,表示取消正在进行中的订单)
                   "errorMsg": 失败的原因	
                 }
-  /showAccount:
-    description: 查看账单
-    post:
-      queryParameters:
-        token:
-          displayName: token
-          type: string 
-          example: sdfs234rrjkn2IFO
-          required: true
-          description: 用于识别用户
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result":0(失败),1(成功)
-                  "data":[
-                      {
-                      "type":(账单类型)0表示充值 1表示提现 2表示订单, "time":(交易时间), "money":12(金额),
-                      "order"(只有type为2时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
-                      },
-                      {},...]
-                }	
   /finishOrder:
     description: 结束订单
     post:
