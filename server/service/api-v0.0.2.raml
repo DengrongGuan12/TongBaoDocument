@@ -552,25 +552,29 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         realName:
-          displayName: 姓名
+          displayName: realName
           type: string
           example: 管登容
           required: true
+          description: 真实姓名
         licenseNum:
-          displayName: 驾驶证号
+          displayName: licenseNum
           required: true
           example: 121212121212
           type: string
+          description: 驾驶证号码
         licensePicUrl:
-          displayName: 驾驶证图像url
+          displayName: licensePicUrl
           type: string
           required: true
           example: asdf.com
+          description: 驾驶证图像
         driverHeadPicUrl:
           type: string
           required: true
           example: sdfsdf.com
-          displayName: 驾驶人头像url
+          displayName: driverHeadPicUrl
+          description: 驾驶人头像照片
       responses:
         200:
           body:
@@ -591,20 +595,23 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         truckNum:
-          displayName: 车牌号
+          displayName: truckNum
           type: string
           example: 苏Asdf
           required: true
+          description: 车牌号
         truckHeadPicUrl:
-          displayName: 车头照图像url
+          displayName: truckHeadPicUrl
           type: string
           required: true
           example: asdf.com
+          description: 车头照图像url
         driveLicensePicUrl:
           type: string
           required: true
           example: sdfsdf.com
-          displayName: 行驶证图像url
+          displayName: driveLicensePicUrl
+          description: 行驶证图像url
       responses:
         200:
           body:
@@ -625,8 +632,8 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         type:
-          displayName: 类型
-          description: 1表示正在进行,2表示已经完成,3表示被取消
+          displayName: type
+          description: 类型,1表示正在进行,2表示已经完成,3表示被取消
           required: true
           example: 0
       responses:
@@ -677,7 +684,7 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         id:
-          displayName: 订单id
+          displayName: id
           type: integer
           example: 2015121312423
           required: true
@@ -702,7 +709,7 @@ version: 0.0.1
           required: true
           description: 用于识别用户
         id:
-          displayName: 订单id
+          displayName: id
           type: integer
           example: 2015121312423
           required: true
@@ -719,6 +726,13 @@ version: 0.0.1
   /showAllOrders:
     description: 显示所有未被抢到的订单
     post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
       responses:
         200:
           body:
@@ -735,6 +749,12 @@ version: 0.0.1
     description: 显示订单详情
     post:
       queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
         id:
           type: integer
           required: true
