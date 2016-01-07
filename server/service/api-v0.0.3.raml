@@ -1,0 +1,771 @@
+#%RAML 0.8
+title: tongbao
+version: 0.0.3
+#---method---
+#--string 类型的一定要考虑限制长度 ,这个长度会等数据库建完之后给出; 401错误用来表示未登陆状态下访问受限的url状态码--
+/user:
+  /register:
+    description: 注册
+    post:
+      queryParameters:
+        phoneNumber:
+          displayName: phoneNumber
+          type: string
+          example: 15851813132
+          required: true
+          description: 必须为正确的手机号格式
+        password:
+          displayName: password
+          type: string
+          example: abc123
+          required: true
+          description: 限定最小长度
+        type:
+          displayName: type
+          type: integer
+          example: 0
+          required: true
+          description: 0表示货主, 1表示司机
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败)1(成功),
+                  "errorMsg":(表示失败的原因，比如手机号已经注册)
+                }
+  /login:
+    description: 登陆
+    post:
+      queryParameters:
+        phoneNumber:
+          displayName: phoneNumber
+          type: string
+          example: 15851813132
+          required: true
+        password:
+          displayName: password
+          type: string
+          example: abc123
+          required: true
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":(失败)1(成功),
+                  "data"(只有登陆成功才会有):{"nickName":"夏明","iconUrl":"abc.com","point":23(积分),"money":34(账户余额)}
+                }
+  /modifyNickName:
+    description: 修改个人昵称
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        nickName:
+          displayName: 用户名
+          type: string
+          example: 小花
+          required: true
+          description: 修改后的用户名
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败)1(成功),
+                  "errorMsg":失败的原因
+                }
+  /modifyPassword:
+    description: 修改密码
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用
+        oldPassword:
+          displayName: 旧密码
+          type: string
+          example: wree54654
+          required: true
+          description: 旧密
+        newPassword:
+          displayName: 新密码
+          type: string
+          example: fsdf23re
+          required: true
+          description: 新密码
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败)1(成功),
+                  "errorMsg":失败原因
+                }
+  /modifyIcon:
+    description: 修改个人头像
+    post:
+      queryParameters: 
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        iconUrl:
+          displayName: iconUrl
+          type: string 
+          example: abc.com
+          required: true
+          description: 图片的url
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败)1(成功),
+                  "errorMsg":失败原因
+                }
+  /getContacts:
+    description: 获取联系人列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"id":1,"nickName":昵称,"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机},
+                          {"id":2,"nickName":昵称,"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机},{}...] 
+                } 
+  /getContactDetail:
+    description: 获取联系人
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer 
+          example: 1
+          required: true
+          description: 用于获取用户详情
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data": {"id":1(用户id),"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机,
+                          "nickName":昵称,"sex":0男1女,"regTime":(注册时间)"2015-11-11 00:00:00"}
+                }
+  /showAccount:
+    description: 查看账单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功)
+                  "data":[
+                      {
+                      "type":(账单类型)0表示充值 1表示提现 2表示订单, "time":(交易时间), "money":12(金额),
+                      "order"(只有type为2时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
+                      },
+                      {},...]
+                } 
+  /getAllTruckTypes:
+    description: 获取所有车辆类型
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因 ,
+                  "data": [{"type":0(类型),"name":"面包车"},{"type":1(类型),"name":"敞篷车"},...]
+                }
+  /getAllLengthTypes:
+    description: 获取所有车辆长度类型
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因 ,
+                  "data": [{"type":0(类型),"name":"5-6米"},{"type":1(类型),"name":"6-10米"},...]
+                }
+  /getAllCapacityTypes:
+    description: 获取所有载重类型
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因 ,
+                  "data": [{"type":0(类型),"name":"5-6吨"},{"type":1(类型),"name":"6-10吨"},...]
+                }
+/shipper:
+  /placeOrder:
+    description: 下单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        addressFrom:
+          displayName: addressFrom
+          type: string
+          example: 汉口路22号
+          required: true
+          description: 发货地
+        addressTo:
+          displayName: addressTo
+          type: string 
+          example: 汉口路55号
+          required: true
+          description: 收货地
+        loadTime:
+          displayName: loadTime
+          type: string
+          example: 2015-11-09 00:00:00,注意格式
+          required: true
+          description: 装车时
+        goodsType:
+          displayName: goodsType
+          type: string
+          example: 食品
+          required: true
+          description: 货物类型
+        goodsWeight:
+          displayName: goodsWeight
+          type: integer
+          example: 4
+          required: true
+          description: 货物的重量,单位是千克
+        goodsSize:
+          displayName: goodsSize
+          type: integer
+          required: true
+          description: 货物的体积, 单位是方
+        truckType:
+          displayName: truckType
+          type: integer
+          example: 1
+          required: true
+          description: 所需车辆类
+        truckCapacity:
+          displayName: truckCapacity
+          type: integer
+          example: 3
+          required: true
+          description: 所需车辆载重类型
+        payType:
+          displayName: payType
+          type: integer
+          example: 0(线上)/1(线下)
+          required: true
+          description: 支付方式
+        price:
+          displayName: price
+          type: integer
+          example: 100
+          required: true
+          description: 酬劳
+      responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {
+                    "result":0(失败)1(成功),
+                    "errorMsg":失败原因
+                  }
+  /evaluateOrder:
+    description: 评论订单
+    post:
+        queryParameters:
+          token:
+            displayName: token
+            type: string 
+            example: sdfs234rrjkn2IFO
+            required: true
+            description: 用于识别用户
+          id:
+            displayName: id
+            type: integer
+            example: 2015121312423
+            required: true
+            description: 要评论的订单
+          evaluateType:
+            displayName: evaluateType
+            type: integer
+            example: 0(差评),1(好评)
+            required: true
+            description: 评价类型
+          evaluate:
+            displayName: evaluate
+            type: string
+            example: 司机挺好的
+            required: false
+            description: 评价内容
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {
+                    "result": 0(失败),1(成功),
+                    "errorMsg": 失败的原因
+                  }
+  /showMyOrderList:
+    description: 查看订单列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        type:
+          displayName: type
+          description: 0表示尚未开始,1表示正在进行,2表示已经完成,3表示被取消
+          required: true
+          example: 0
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败的原因,
+                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  ...]
+                }
+  /deleteOrder:
+    description: 删除订单，注意这里并不是真正删除，只是设置对其不可见
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 2015121312423
+          required: true
+          description: 要删除的订单
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因	
+                }
+  /cancelOrder:
+    description: 取消订单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 2015121312423
+          required: true
+          description: 要取消的订单id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),2(pending,表示取消正在进行中的订单)
+                  "errorMsg": 失败的原因	
+                }
+  /finishOrder:
+    description: 结束订单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 1
+          required: true
+          description: 要结束的订单id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功)
+                  "errorMsg": 失败的原因	
+                }
+  /recharge:
+    description: 充值
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        money:
+          displayName: money
+          type: integer
+          example: 23.3
+          required: true
+          description: 充值金额,因为这个工具支持double,所以暂且写成int
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功)
+                  "errorMsg": 失败的原因	
+                }	
+/driver:
+  /setTruckInfo:
+    description: 设置车辆信息
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        truckNum:
+          displayName: truckNum
+          type: string
+          example: 苏Asdf
+          required: true
+          description: 车牌号
+        truckType:
+          displayName: type
+          required: true
+          example: 0
+          type: integer
+          description: 车辆类型
+        lengthType:
+          displayName: lengthType
+          type: integer
+          required: true
+          example: 0
+          description: 长度类型
+        capacityType:
+          type: integer
+          required: true
+          example: 0
+          displayName: capacityType
+          description: 载重类型
+        phoneNum:
+          type: string
+          required: true
+          example: 12121212
+          displayName: phoneNum
+          description: 随车电话
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(设置失败),1(设置成功)
+                  "errorMsg": 失败的原因	
+                }
+  /setRealNameAuthInfo:
+    description: 设置实名认证信息
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        realName:
+          displayName: realName
+          type: string
+          example: 管登容
+          required: true
+          description: 真实姓名
+        licenseNum:
+          displayName: licenseNum
+          required: true
+          example: 121212121212
+          type: string
+          description: 驾驶证号码
+        licensePicUrl:
+          displayName: licensePicUrl
+          type: string
+          required: true
+          example: asdf.com
+          description: 驾驶证图像
+        driverHeadPicUrl:
+          type: string
+          required: true
+          example: sdfsdf.com
+          displayName: driverHeadPicUrl
+          description: 驾驶人头像照片
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(提交失败),1(提交成功)
+                  "errorMsg": 失败的原因	
+                }
+  /setTruckAuthInfo:
+    description: 设置车辆认证信息
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        truckNum:
+          displayName: truckNum
+          type: string
+          example: 苏Asdf
+          required: true
+          description: 车牌号
+        truckHeadPicUrl:
+          displayName: truckHeadPicUrl
+          type: string
+          required: true
+          example: asdf.com
+          description: 车头照图像url
+        driveLicensePicUrl:
+          type: string
+          required: true
+          example: sdfsdf.com
+          displayName: driveLicensePicUrl
+          description: 行驶证图像url
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(提交失败),1(提交成功)
+                  "errorMsg": 失败的原因	
+                }
+  /showMyOrderList:
+    description: 显示订单列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        type:
+          displayName: type
+          description: 类型,1表示正在进行,2表示已经完成,3表示被取消
+          required: true
+          example: 0
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败的原因,
+                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  ...]
+                }
+  /cancelOrder:
+    description: 取消订单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: 订单id
+          type: integer
+          example: 2015121312423
+          required: true
+          description: 要取消的订单id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功)
+                  "errorMsg": 失败的原因	
+                }
+  /deleteOrder:
+    description: 删除订单,注意这里并不是真正删除，只是设置对其不可见
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 2015121312423
+          required: true
+          description: 要删除的订单
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因	
+                }
+  /grabOrder:
+    description: 抢单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 2015121312423
+          required: true
+          description: 要抢的订单
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因	
+                }
+  /showAllOrders:
+    description: 显示所有未被抢到的订单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败的原因,
+                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  ...]
+                }
+  /getOrderDetail:
+    description: 显示订单详情
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          type: integer
+          required: true
+          description: 订单id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败的原因,
+                  "data":{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)}
+                }    
