@@ -185,6 +185,144 @@ version: 0.0.3
                   "data": {"id":1(用户id),"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机,
                           "nickName":昵称,"sex":0男1女,"regTime":(注册时间)"2015-11-11 00:00:00"}
                 }
+  /getFrequentDrivers:
+    description: 获取常用司机列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"id":1,"nickName":昵称,"phoneNum":12345},
+                          {"id":2,"nickName":昵称,"phoneNum":12345},{}...] 
+                }
+  /getFrequentAddresses:
+    description: 获取常用地址列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"id":1,"address":12345},
+                          {"id":2,"address":12345},{}...] 
+                }
+  /addFrequentDriver:
+    description: 添加常用司机
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer 
+          example: 1
+          required: true
+          description: 司机id，先根据手机号搜索得到的司机id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+  /searchDriver:
+    description: 根据手机号搜索司机(可以是模糊搜索)
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        phoneNum:
+          displayName: phoneNum
+          type: string
+          example: 15950570277
+          required: true
+          description: 司机手机号
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"id":1,"nickName":12345,"phoneNum":1595070372},
+                          {"id":2,"nickName":12345,"phoneNum":1595070372},{}...] 
+                }
+  /addFrequentAddress:
+    description: 添加常用地址
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        address:
+          displayName: address
+          type: string
+          example: 鼓楼区
+          required: true
+          description: 地址字符串，后面可能要根据百度地图提供的接口添加经纬度坐标
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+  /getMyMessages:
+    description: 获取我的消息列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"id":1,"type"(类型):0:订单被抢到（通知货主）1:订单完成（通知司机）2: 正在进行的订单被取消(通知司机)3：其他消息,
+                            "content":消息内容,"hasRead"(是否已读):0未读,1已读,"time"(时间):消息产生的时间,
+                            "objectId":type为012时表示订单id},{}]
+                  "errorMsg": 失败原因
+                }
   /showAccount:
     description: 查看账单
     post:
@@ -220,33 +358,8 @@ version: 0.0.3
                 {
                   "result": 0(失败),1(成功),
                   "errorMsg": 失败的原因 ,
-                  "data": [{"type":0(类型),"name":"面包车"},{"type":1(类型),"name":"敞篷车"},...]
-                }
-  /getAllLengthTypes:
-    description: 获取所有车辆长度类型
-    post:
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result": 0(失败),1(成功),
-                  "errorMsg": 失败的原因 ,
-                  "data": [{"type":0(类型),"name":"5-6米"},{"type":1(类型),"name":"6-10米"},...]
-                }
-  /getAllCapacityTypes:
-    description: 获取所有载重类型
-    post:
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result": 0(失败),1(成功),
-                  "errorMsg": 失败的原因 ,
-                  "data": [{"type":0(类型),"name":"5-6吨"},{"type":1(类型),"name":"6-10吨"},...]
+                  "data": [{"type":0(类型),"name":"面包车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},
+                          {"type":1(类型),"name":"敞篷车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},...]
                 }
 /shipper:
   /placeOrder:
@@ -271,41 +384,167 @@ version: 0.0.3
           example: 汉口路55号
           required: true
           description: 收货地
+        fromContactName:
+          displayName: fromContactName
+          description: 发货地联系人姓名
+          example: abc
+          required: false
+          type: string
+        fromContactPhone: 
+          displayName: fromContactPhone
+          description: 发货地联系人电话
+          type: string
+          required: false
+          example: 12345667
+        toContactName:
+          displayName: fromContactName
+          description: 收货地联系人姓名
+          example: abc
+          required: false
+          type: string
+        toContactPhone: 
+          displayName: fromContactPhone
+          description: 收货地联系人电话
+          type: string
+          required: false
+          example: 12345667
         loadTime:
           displayName: loadTime
           type: string
           example: 2015-11-09 00:00:00,注意格式
           required: true
-          description: 装车时
+          description: 装车时间
         goodsType:
           displayName: goodsType
           type: string
           example: 食品
-          required: true
+          required: false
           description: 货物类型
         goodsWeight:
           displayName: goodsWeight
           type: integer
           example: 4
-          required: true
+          required: false
           description: 货物的重量,单位是千克
         goodsSize:
           displayName: goodsSize
           type: integer
-          required: true
+          required: false
           description: 货物的体积, 单位是方
-        truckType:
-          displayName: truckType
+        truckTypes:
+          displayName: truckTypes
           type: integer
           example: 1
           required: true
-          description: 所需车辆类
-        truckCapacity:
-          displayName: truckCapacity
+          description: 所需车辆类型数组,[1,2,3,4]
+        remark: 
+          displayName: remark
+          type: string
+          example: sdfasdfasdfasfd
+          required: false
+          description: 备注信息
+        payType:
+          displayName: payType
           type: integer
-          example: 3
+          example: 0(线上)/1(线下)
           required: true
-          description: 所需车辆载重类型
+          description: 支付方式
+        price:
+          displayName: price
+          type: integer
+          example: 100
+          required: true
+          description: 酬劳
+      responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {
+                    "result":0(失败)1(成功),
+                    "errorMsg":失败原因
+                  }
+  /splitOrder:
+    description: 当下单失败时需要提示用户是否自动拆单，用户点击是 调用的方法,需要再次传入订单信息
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        addressFrom:
+          displayName: addressFrom
+          type: string
+          example: 汉口路22号
+          required: true
+          description: 发货地
+        addressTo:
+          displayName: addressTo
+          type: string 
+          example: 汉口路55号
+          required: true
+          description: 收货地
+        fromContactName:
+          displayName: fromContactName
+          description: 发货地联系人姓名
+          example: abc
+          required: false
+          type: string
+        fromContactPhone: 
+          displayName: fromContactPhone
+          description: 发货地联系人电话
+          type: string
+          required: false
+          example: 12345667
+        toContactName:
+          displayName: fromContactName
+          description: 收货地联系人姓名
+          example: abc
+          required: false
+          type: string
+        toContactPhone: 
+          displayName: fromContactPhone
+          description: 收货地联系人电话
+          type: string
+          required: false
+          example: 12345667
+        loadTime:
+          displayName: loadTime
+          type: string
+          example: 2015-11-09 00:00:00,注意格式
+          required: true
+          description: 装车时间
+        goodsType:
+          displayName: goodsType
+          type: string
+          example: 食品
+          required: false
+          description: 货物类型
+        goodsWeight:
+          displayName: goodsWeight
+          type: integer
+          example: 4
+          required: false
+          description: 货物的重量,单位是千克
+        goodsSize:
+          displayName: goodsSize
+          type: integer
+          required: false
+          description: 货物的体积, 单位是方
+        truckTypes:
+          displayName: truckTypes
+          type: integer
+          example: 1
+          required: true
+          description: 所需车辆类型数组,[1,2,3,4]
+        remark: 
+          displayName: remark
+          type: string
+          example: sdfasdfasdfasfd
+          required: false
+          description: 备注信息
         payType:
           displayName: payType
           type: integer
@@ -343,13 +582,13 @@ version: 0.0.3
             example: 2015121312423
             required: true
             description: 要评论的订单
-          evaluateType:
-            displayName: evaluateType
+          evaluatePoint:
+            displayName: evaluatePoint
             type: integer
-            example: 0(差评),1(好评)
+            example: 0,1,2,3,4,5
             required: true
-            description: 评价类型
-          evaluate:
+            description: 评分
+          evaluateContent:
             displayName: evaluate
             type: string
             example: 司机挺好的
@@ -387,10 +626,41 @@ version: 0.0.3
                 {
                   "result":0(失败),1(成功),
                   "errorMsg": 失败的原因,
-                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
-                  {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间},
+                          {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间},
                   ...]
                 }
+  /getOrderDetail:
+    description: 显示订单详情，只能看到自己的订单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          type: integer
+          required: true
+          description: 订单id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败的原因,
+                  "data":{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间,"state":订单目前的状态
+                          0:尚未被抢1:已经被抢，正在进行2:进行中取消，正在等待司机确认3:已经取消4:已经完成}
+                }  
   /deleteOrder:
     description: 删除订单，注意这里并不是真正删除，只是设置对其不可见
     post:
@@ -481,7 +751,7 @@ version: 0.0.3
           type: integer
           example: 23.3
           required: true
-          description: 充值金额,因为这个工具支持double,所以暂且写成int
+          description: 充值金额,因为这个工具不支持double,所以暂且写成int
       responses:
         200:
           body:
@@ -492,8 +762,8 @@ version: 0.0.3
                   "errorMsg": 失败的原因	
                 }	
 /driver:
-  /setTruckInfo:
-    description: 设置车辆信息
+  /addTruck:
+    description: 添加车辆信息
     post:
       queryParameters:
         token:
@@ -514,18 +784,6 @@ version: 0.0.3
           example: 0
           type: integer
           description: 车辆类型
-        lengthType:
-          displayName: lengthType
-          type: integer
-          required: true
-          example: 0
-          description: 长度类型
-        capacityType:
-          type: integer
-          required: true
-          example: 0
-          displayName: capacityType
-          description: 载重类型
         phoneNum:
           type: string
           required: true
@@ -551,6 +809,12 @@ version: 0.0.3
           example: sdfs234rrjkn2IFO
           required: true
           description: 用于识别用户
+        truckNum:
+          displayName: truckNum
+          type: string
+          example: 苏Asdf
+          required: true
+          description: 车牌号
         realName:
           displayName: realName
           type: string
@@ -633,7 +897,7 @@ version: 0.0.3
           description: 用于识别用户
         type:
           displayName: type
-          description: 类型,1表示正在进行,2表示已经完成,3表示被取消
+          description: 类型,1表示正在进行,2表示已经完成
           required: true
           example: 0
       responses:
@@ -644,8 +908,12 @@ version: 0.0.3
                 {
                   "result":0(失败),1(成功),
                   "errorMsg": 失败的原因,
-                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
-                  {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间},
+                          {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间},
                   ...]
                 }
   /cancelOrder:
@@ -724,7 +992,7 @@ version: 0.0.3
                   "errorMsg": 失败的原因	
                 }
   /showAllOrders:
-    description: 显示所有未被抢到的订单
+    description: 显示所有未被抢到的订单,根据起点终点筛选,起点终点的格式要尽快由百度地图确定,暂时定为string,查找string相同的起点终点
     post:
       queryParameters:
         token:
@@ -733,6 +1001,18 @@ version: 0.0.3
           example: sdfs234rrjkn2IFO
           required: true
           description: 用于识别用户
+        fromAddress:
+          displayName: fromAddress
+          type: string 
+          example: 鼓楼区
+          required: true
+          description: 起点筛选
+        toAddress:
+          displayName: toAddress
+          type: string 
+          example: 玄武区
+          required: true
+          description: 终点筛选
       responses:
         200:
           body:
@@ -741,12 +1021,16 @@ version: 0.0.3
                 {
                   "result":0(失败),1(成功),
                   "errorMsg": 失败的原因,
-                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
-                  {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)},
+                  "data":[{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间},
+                            {"id":2(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间},
                   ...]
                 }
   /getOrderDetail:
-    description: 显示订单详情
+    description: 显示订单详情，只能看到尚未被抢的以及被自己抢到的
     post:
       queryParameters:
         token:
@@ -767,5 +1051,8 @@ version: 0.0.3
                 {
                   "result":0(失败),1(成功),
                   "errorMsg": 失败的原因,
-                  "data":{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额)}
-                }    
+                  "data":{"id":1(订单id),"time":"2015-11-29 00:00:00"(下单时间),"addressFrom":开始地点,"addressTo":终止地点,"money":12.2(金额),
+                          "truckTypes":["小型面包车","中型客车",..],"fromContactName":起点联系人姓名,"fromContactPhone":起点联系人号码,
+                          "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间,"state":订单目前的状态
+                          0:尚未被抢1:已经被抢，正在进行2:进行中取消，正在等待司机确认4:已经完成}
+                }   
