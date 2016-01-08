@@ -185,6 +185,92 @@ version: 0.0.3
                   "data": {"id":1(用户id),"phoneNum":12345,"type":(用户类型)0表示货主 1表示司机,
                           "nickName":昵称,"sex":0男1女,"regTime":(注册时间)"2015-11-11 00:00:00"}
                 }
+  /getMyMessages:
+    description: 获取我的消息列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"id":1,"type"(类型):0:订单被抢到（通知货主）1:订单完成（通知司机）2: 正在进行的订单被取消(通知司机)3：其他消息,
+                            "content":消息内容,"hasRead"(是否已读):0未读,1已读,"time"(时间):消息产生的时间,
+                            "objectId":type为012时表示订单id},{}]
+                  "errorMsg": 失败原因
+                }
+  /showAccount:
+    description: 查看账单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功)
+                  "data":[
+                      {
+                      "type":(账单类型)0表示充值 1表示提现 2表示订单, "time":(交易时间), "money":12(金额),
+                      "order"(只有type为2时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
+                      },
+                      {},...]
+                } 
+  /getAllTruckTypes:
+    description: 获取所有车辆类型
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因 ,
+                  "data": [{"type":0(类型),"name":"面包车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},
+                          {"type":1(类型),"name":"敞篷车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},...]
+                }
+  /recharge:
+    description: 充值
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        money:
+          displayName: money
+          type: integer
+          example: 23.3
+          required: true
+          description: 充值金额,因为这个工具不支持double,所以暂且写成int
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功)
+                  "errorMsg": 失败的原因 
+                }
+/shipper:
   /getFrequentDrivers:
     description: 获取常用司机列表
     post:
@@ -301,67 +387,6 @@ version: 0.0.3
                   "result":0(失败),1(成功),
                   "errorMsg": 失败原因
                 }
-  /getMyMessages:
-    description: 获取我的消息列表
-    post:
-      queryParameters:
-        token:
-          displayName: token
-          type: string 
-          example: sdfs234rrjkn2IFO
-          required: true
-          description: 用于识别用户
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result":0(失败),1(成功),
-                  "data":[{"id":1,"type"(类型):0:订单被抢到（通知货主）1:订单完成（通知司机）2: 正在进行的订单被取消(通知司机)3：其他消息,
-                            "content":消息内容,"hasRead"(是否已读):0未读,1已读,"time"(时间):消息产生的时间,
-                            "objectId":type为012时表示订单id},{}]
-                  "errorMsg": 失败原因
-                }
-  /showAccount:
-    description: 查看账单
-    post:
-      queryParameters:
-        token:
-          displayName: token
-          type: string 
-          example: sdfs234rrjkn2IFO
-          required: true
-          description: 用于识别用户
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result":0(失败),1(成功)
-                  "data":[
-                      {
-                      "type":(账单类型)0表示充值 1表示提现 2表示订单, "time":(交易时间), "money":12(金额),
-                      "order"(只有type为2时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
-                      },
-                      {},...]
-                } 
-  /getAllTruckTypes:
-    description: 获取所有车辆类型
-    post:
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result": 0(失败),1(成功),
-                  "errorMsg": 失败的原因 ,
-                  "data": [{"type":0(类型),"name":"面包车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},
-                          {"type":1(类型),"name":"敞篷车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},...]
-                }
-/shipper:
   /placeOrder:
     description: 下单
     post:
@@ -727,31 +752,6 @@ version: 0.0.3
           example: 1
           required: true
           description: 要结束的订单id
-      responses:
-        200:
-          body:
-            application/json:
-              example: |
-                {
-                  "result": 0(失败),1(成功)
-                  "errorMsg": 失败的原因	
-                }
-  /recharge:
-    description: 充值
-    post:
-      queryParameters:
-        token:
-          displayName: token
-          type: string 
-          example: sdfs234rrjkn2IFO
-          required: true
-          description: 用于识别用户
-        money:
-          displayName: money
-          type: integer
-          example: 23.3
-          required: true
-          description: 充值金额,因为这个工具不支持double,所以暂且写成int
       responses:
         200:
           body:
