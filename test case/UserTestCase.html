@@ -1,0 +1,62 @@
+<html>
+	<body>
+		<h1>User test case</h1>
+		<form action="http://localhost:8080/tongbao/user/login" method="post">login<br>
+		phone:<input type="text" name="phoneNumber"><br>
+		password:<input type="text" name="password"><br>
+		<input type="submit"name="login">
+	</form>
+	
+	<form action="http://localhost:8080/tongbao/user/register" method="post">register<br>
+		phone:<input type="text" name="phoneNumber"><br>
+		password:<input type="text" name="password"><br>
+		type:<input type="text" name="type"><br>
+		<input type="submit"name="register">
+	</form>
+
+	<form action="http://localhost:8080/tongbao/user/modifyNickName" method="post">modifyNickName<br>
+		token:<input type="text" name="token"><br>
+		nickName:<input type="text" name="nickName"><br>
+		<input type="submit">
+	</form>
+		<form action="http://localhost:8080/tongbao/user/modifyPassword" method="post">modifyPassword<br>
+		token:<input type="text" name="token"><br>
+		oldpassword:<input type="text" name="oldPassword"><br>
+			newpassword:<input type="text" name="newPassword"><br>
+		<input type="submit">
+	</form>
+	<form action="http://localhost:8080/tongbao/user/modifyIcon" method="post">modifyIcon<br>
+		token:<input type="text" name="token"><br>
+		iconUrl:<input type="text" name="iconUrl"><br>
+		<input type="submit">
+	</form>
+	<form action="http://localhost:8080/tongbao/user/showAccount" method="post">showAccount<br>
+		token:<input type="text" name="token"><br>
+		<input type="submit">
+	</form>
+	
+	<form action="http://localhost:8080/tongbao/user/getContacts" method="post">getContacts<br>
+		token:<input type="text" name="token"><br>
+		<input type="submit">
+	</form>
+	
+		<form action="http://localhost:8080/tongbao/user/getContactDetail" method="post">getContactDetail<br>
+		token:<input type="text" name="token"><br>
+		userId:<input type="text" name="id"><br>
+		<input type="submit">
+	</form>
+		
+	<form action="http://localhost:8080/tongbao/user/getMyMessages" method="post">getMyMessages<br>
+		token:<input type="text" name="token"><br>
+		<input type="submit">
+	</form>
+	<form action="http://localhost:8080/tongbao/user/getAllTruckTypes" method="post">getAllTruckTypes<br>
+		<input type="submit">
+	</form>
+	<form action="http://localhost:8080/tongbao/user/recharge" method="post">recharge<br>
+		token:<input type="text" name="token"><br>
+		money:<input type="text" name="money"><br>
+		<input type="submit">
+	</form>
+</body>
+</html>

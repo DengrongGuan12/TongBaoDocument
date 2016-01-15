@@ -1,0 +1,104 @@
+<html>
+	<body>
+		<h1>Shipper test case</h1>
+	<form action="http://localhost:8080/tongbao/user/login" method="post">login<br>
+		phone:<input type="text" name="phoneNumber"><br>
+		password:<input type="text" name="password"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/getFrequentDrivers" method="post">getFrequentDrivers<br>
+		token:<input type="text" name="token"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/getFrequentAddresses" method="post">getFrequentAddresses<br>
+		token:<input type="text" name="token"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/addFrequentDriver" method="post">addFrequentDriver<br>
+		token:<input type="text" name="token"><br>
+		driverId:<input type="text" name = "id"><br>
+		<input type="submit"name="login">
+	</form>
+
+	<form action="http://localhost:8080/tongbao/shipper/searchDriver" method="post">searchDriver<br>
+		token:<input type="text" name="token"><br>
+		phoneNum:<input type="text" name = "phoneNum"><br>
+		<input type="submit"name="login">
+	</form>
+		<form action="http://localhost:8080/tongbao/shipper/addFrequentAddress" method="post">addFrequentAddress<br>
+		token:<input type="text" name="token"><br>
+		address:<input type="text" name = "address"><br>
+		lat:<input type="text" name = "lat"><br>
+		lng:<input type="text" name = "lng"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/placeOrder" method="post">placeOrder<br>
+		token:<input type="text" name="token"><br>
+		addressFrom:<input type="text" name = "addressFrom"><br>
+		addressTo:<input type="text" name = "addressTo"><br>
+		fromContactName:<input type="text" name = "fromContactName"><br>
+		fromContactPhone:<input type="text" name = "fromContactPhone"><br>
+		toContactName:<input type="text" name = "toContactName"><br>
+		toContactPhone:<input type="text" name = "toContactPhone"><br>
+		loadTime:<input type="text" name = "loadTime"><br>
+		goodsType:<input type="text" name = "goodsType"><br>
+		goodsWeight:<input type="text" name = "goodsWeight"><br>
+		goodsSize:<input type="text" name = "goodsSize"><br>
+		truckTypes:<input type="text" name = "truckTypes"><br>
+		payType:<input type="text" name = "payType"><br>
+		price:<input type="text" name = "price"><br>
+		remark:<input type="text" name = "remark"><br>
+		<input type="submit"name="login">
+	</form>
+		<form action="http://localhost:8080/tongbao/shipper/evaluateOrder" method="post">evaluateOrder<br>
+		token:<input type="text" name="token"><br>
+		id:<input type="text" name = "id"><br>
+		evaluatePoint:<input type="text" name = "evaluatePoint"><br>
+		evaluate:<input type="text" name = "evaluate"><br>
+		<input type="submit"name="login">
+	</form>
+		<form action="http://localhost:8080/tongbao/shipper/splitOrder" method="post">splitOrder<br>
+		token:<input type="text" name="token"><br>
+		addressFrom:<input type="text" name = "addressFrom"><br>
+		addressTo:<input type="text" name = "addressTo"><br>
+		fromContactName:<input type="text" name = "fromContactName"><br>
+		fromContactPhone:<input type="text" name = "fromContactPhone"><br>
+		toContactName:<input type="text" name = "toContactName"><br>
+		toContactPhone:<input type="text" name = "toContactPhone"><br>
+		loadTime:<input type="text" name = "loadTime"><br>
+		goodsType:<input type="text" name = "goodsType"><br>
+		goodsWeight:<input type="text" name = "goodsWeight"><br>
+		goodsSize:<input type="text" name = "goodsSize"><br>
+		truckTypes:<input type="text" name = "truckTypes"><br>
+		payType:<input type="text" name = "payType"><br>
+		price:<input type="text" name = "price"><br>
+		remark:<input type="text" name = "remark"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/showMyOrderList" method="post">showMyOrderList<br>
+		token:<input type="text" name="token"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/deleteOrder" method="post">deleteOrder<br>
+		token:<input type="text" name="token"><br>
+		id:<input type="text" name="id"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/cancelOrder" method="post">cancelOrder<br>
+		token:<input type="text" name="token"><br>
+		id:<input type="text" name="id"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/finishOrder" method="post">finishOrder<br>
+		token:<input type="text" name="token"><br>
+		id:<input type="text" name="id"><br>
+		<input type="submit"name="login">
+	</form>
+	<form action="http://localhost:8080/tongbao/shipper/getOrderDetail" method="post">getOrderDetail<br>
+		token:<input type="text" name="token"><br>
+		id:<input type="text" name="id"><br>
+		<input type="submit"name="login">
+	</form>
+
+</body>
+</html>
