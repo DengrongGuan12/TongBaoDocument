@@ -19,7 +19,7 @@ version: 0.0.3
           type: string
           example: abc123
           required: true
-          description: 限定最小长度
+          description: 限定最小长度,大于等于8
         type:
           displayName: type
           type: integer
@@ -49,6 +49,12 @@ version: 0.0.3
           type: string
           example: abc123
           required: true
+        type:
+          displayName: type
+          type: integer
+          example: 0
+          required: true
+          description: 0货主 1司机
       responses:
         200:
           body:
@@ -105,7 +111,7 @@ version: 0.0.3
           type: string
           example: fsdf23re
           required: true
-          description: 新密码
+          description: 新密码,长度大于等于8小于等于255
       responses:
         200:
           body:
