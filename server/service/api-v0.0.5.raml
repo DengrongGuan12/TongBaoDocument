@@ -793,6 +793,55 @@ version: 0.0.3
                 }	
         401:
 /driver:
+  /auth/getTruckList:
+    description: 获取一个司机的车辆列表
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败的原因,
+                  "data":[{"id":1(车辆id),"truckNum":车牌号,"authState":审核状态(0未验证，1正在验证，2验证成功,3验证失败)},{},{}
+                  ...]
+                }
+        401:
+  /auth/getTruckDetail:
+    description: 获取一辆车的具体信息
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 12
+          required: true
+          description: 车辆id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败的原因,
+                  "data":{"truckNum":车牌号,"authState":审核状态(0未验证，1正在验证，2验证成功,3验证失败),"typeName":车型名称,"length":车长,"capacity":载重,"phoneNum":随车电话,"realName":车主姓名}
+                }
+        401:
   /auth/addTruck:
     description: 添加车辆信息
     post:
