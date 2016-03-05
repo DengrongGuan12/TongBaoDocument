@@ -82,6 +82,26 @@ version: 0.0.3
                 {
                   "result":0(未注册)1(已注册)
                 }
+  /uploadPicture:
+    description: 上传图片
+    post:
+      queryParameters:
+        file:
+          displayName: file
+          type: file
+          example: 
+          required: true
+          description: 这个使用post提交的文件，与在网页上上传文件类似
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败)1(成功),
+                  "data": "url"(图片的url),
+                  "errorMsg": 失败的原因
+                }
   /auth/modifyNickName:
     description: 修改个人昵称
     post:
