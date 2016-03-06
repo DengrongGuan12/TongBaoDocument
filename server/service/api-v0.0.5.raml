@@ -257,6 +257,32 @@ version: 0.0.3
                   "errorMsg": 失败原因
                 }
         401:
+  /auth/readMessage:
+    description: 读消息
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 1
+          required: true
+          description: 消息的id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+        401:
   /auth/showAccount:
     description: 查看账单
     post:
@@ -650,6 +676,12 @@ version: 0.0.3
           example: 100
           required: true
           description: 酬劳
+        distance:
+          displayName: distance
+          type: integer
+          example: 100
+          required: true
+          description: 大致公里数,用于分配订单金额
       responses:
           200:
             body:
@@ -658,6 +690,32 @@ version: 0.0.3
                   {
                     "result":0(失败)1(成功),
                     "errorMsg":失败原因
+                  }
+          401:
+  /auth/payOrders:
+    description: 支付订单
+    post:
+        queryParameters:
+          token:
+            displayName: token
+            type: string 
+            example: sdfs234rrjkn2IFO
+            required: true
+            description: 用于识别用户
+          ids:
+            displayName: ids
+            type: string
+            example: '[1,2,3]'
+            required: true
+            description: 订单id列表，id可以是一个可以是多个
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {
+                    "result": 0(失败),1(成功),
+                    "errorMsg": 失败的原因
                   }
           401:
   /auth/evaluateOrder:
