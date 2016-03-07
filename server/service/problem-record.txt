@@ -1,0 +1,6 @@
+1. 联系人-- 货主的联系人一定是司机，司机的联系人一定是货主吗？ 添加联系人接口没有
+2. showAccount 接口可能要改一下，type要详细，type-0:充值/1:提现/2:支付/3:退款/4:到帐,type 为2,3,4时order才有
+3. 添加常用司机，不能添加货主！
+4. placeOrder 下单 提示创建成功但是并没有写入数据库,url 如下:
+120.27.112.9:8080/tongbao/shipper/auth/placeOrder?token=9docz4lhrwzpa2re&addressFrom=南京大学鼓楼校区&addressTo=东南大学鼓楼校区&fromContactName=管登荣&fromContactPhone=15950570277&toContactName=浮生更&toContactPhone=15172437489&loadTime=2015-11-01 00:00:00&goodsType=食品&goodsWeight=100&goodsSize=20&remark=急需用车&payType=1&price=100&truckTypes=[1,2,3,4]
+5. 下单如果采用线上方式需要往account表里插入数据，类型是2

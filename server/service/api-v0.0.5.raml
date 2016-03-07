@@ -113,7 +113,7 @@ version: 0.0.3
           required: true
           description: 用于识别用户
         nickName:
-          displayName: 用户名
+          displayName: nickName
           type: string
           example: 小花
           required: true
@@ -139,13 +139,13 @@ version: 0.0.3
           required: true
           description: 用于识别用
         oldPassword:
-          displayName: 旧密码
+          displayName: oldPassword
           type: string
           example: wree54654
           required: true
           description: 旧密
         newPassword:
-          displayName: 新密码
+          displayName: newPassword
           type: string
           example: fsdf23re
           required: true
@@ -302,8 +302,8 @@ version: 0.0.3
                   "result":0(失败),1(成功)
                   "data":[
                       {
-                      "type":(账单类型)0表示充值 1表示提现 2表示订单, "time":(交易时间), "money":12(金额),
-                      "order"(只有type为2时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
+                      "type":(账单类型)0表示充值 1表示提现 2表示支付 3表示退款 4表示到帐, "time":(交易时间), "money":12(金额),
+                      "order"(只有type为2,3,4时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
                       },
                       {},...]
                 } 
@@ -319,8 +319,8 @@ version: 0.0.3
                 {
                   "result": 0(失败),1(成功),
                   "errorMsg": 失败的原因 ,
-                  "data": [{"type":0(类型),"name":"面包车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},
-                          {"type":1(类型),"name":"敞篷车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费},...]
+                  "data": [{"type":0(类型),"name":"面包车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费,"baseDistance":起步公里数(公里)},
+                          {"type":1(类型),"name":"敞篷车","basePrice":起步价,"capacity":载重,"length":长度,"width":宽,"height":高,"overPrice":超公里费,"baseDistance":起步公里数(公里)},...]
                 }
   /auth/recharge:
     description: 充值
@@ -515,13 +515,13 @@ version: 0.0.3
           required: false
           example: 12345667
         toContactName:
-          displayName: fromContactName
+          displayName: toContactName
           description: 收货地联系人姓名
           example: abc
           required: false
           type: string
         toContactPhone: 
-          displayName: fromContactPhone
+          displayName: toContactPhone
           description: 收货地联系人电话
           type: string
           required: false
