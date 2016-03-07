@@ -1,6 +1,23 @@
 1. 联系人-- 货主的联系人一定是司机，司机的联系人一定是货主吗？ 添加联系人接口没有
 2. showAccount 接口可能要改一下，type要详细，type-0:充值/1:提现/2:支付/3:退款/4:到帐,type 为2,3,4时order才有
 3. 添加常用司机，不能添加货主！
-4. placeOrder 下单 提示创建成功但是并没有写入数据库,url 如下:
-120.27.112.9:8080/tongbao/shipper/auth/placeOrder?token=9docz4lhrwzpa2re&addressFrom=南京大学鼓楼校区&addressTo=东南大学鼓楼校区&fromContactName=管登荣&fromContactPhone=15950570277&toContactName=浮生更&toContactPhone=15172437489&loadTime=2015-11-01 00:00:00&goodsType=食品&goodsWeight=100&goodsSize=20&remark=急需用车&payType=1&price=100&truckTypes=[1,2,3,4]
-5. 下单如果采用线上方式需要往account表里插入数据，类型是2
+4. 
+5. 下单如果采用线上方式需要往account表里插入数据，类型是2，且需要扣除user表中相应的金额，因此要判断余额是否充足
+6. 假如用户需要的车辆没有司机有怎么办？应该直接返回失败,而不是返回需要拆单
+7. 拆单逻辑有问题，比如我需要的车辆类型是[1,2,3,4,1,2,3],按照目前的车辆拥有者情况应该拆成两单[1,2,3,4][1,2,3],而不是拆成4单[1,2,3,4][1][2][3]
+8. 获取订单详情 120.27.112.9:8080/tongbao/shipper/auth/getOrderDetail?token=cr5hbakyxdchkc09&id=24, 如果被删除应该不返回数据,且返回值中"truckTypes": [
+      {
+        "id": 62,
+        "orderId": 24,
+        "truckType": 3
+      }
+    ],不对，应该是["面包车","金杯车"]这样的货车类型数组,司机也有同样的问题120.27.112.9:8080/tongbao/driver/auth/getOrderDetail?token=ose4w45gy4g6g45e&id=5
+9. 取消订单如果该订单尚未被抢应该直接取消啊。。。不能这样啊，要我提醒了才能考虑到这些问题，写的时候应该考虑多一点，把各种情况考虑到啊，不多说。。如果遇到问题直接问我
+10. 司机/driver/auth/getOrderDetail 不是只能被抢到的才能看，应该是没有被抢到或者被该司机抢到才能看
+11. 司机120.27.112.9:8080/tongbao/driver/auth/showAllOrders?token=bkbbunzp3wa3un8s 未实现
+12. 司机抢单/driver/auth/grabOrder 的时候看一下该司机符不符合订单要求吧
+
+----下面是我没测的但是需要注意的问题,写的时候就注意到比测的时候发现问题花的代价要少很多啊-----
+
+10. 货主结束订单的时候 要把金额转到司机账户同时生成账单,且只能结束正在进行的即state为1的订单
+11. 货主取消订单只能取消自己的尚未被抢或者正在进行的或者正在取消的，如果取消尚未被抢的直接取消并把钱加到money里且要生成退款的account，司机取消订单是只能取消自己的正在进行的或者自己的正在取消的订单，如果是取消正在进行的，则把订单放回到待抢行列，如果是取消正在取消的订单则直接取消且退款生成account一条记录

@@ -692,32 +692,6 @@ version: 0.0.3
                     "errorMsg":失败原因
                   }
           401:
-  /auth/payOrders:
-    description: 支付订单
-    post:
-        queryParameters:
-          token:
-            displayName: token
-            type: string 
-            example: sdfs234rrjkn2IFO
-            required: true
-            description: 用于识别用户
-          ids:
-            displayName: ids
-            type: string
-            example: '[1,2,3]'
-            required: true
-            description: 订单id列表，id可以是一个可以是多个
-        responses:
-          200:
-            body:
-              application/json:
-                example: |
-                  {
-                    "result": 0(失败),1(成功),
-                    "errorMsg": 失败的原因
-                  }
-          401:
   /auth/evaluateOrder:
     description: 评论订单
     post:
