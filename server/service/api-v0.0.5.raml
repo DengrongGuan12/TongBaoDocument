@@ -496,12 +496,36 @@ version: 0.0.3
           example: 汉口路22号
           required: true
           description: 发货地
+        addressFromLat:
+          displayName: addressFromLat
+          type: string
+          example: 38.8
+          required: true
+          description: 发货地纬度,应该是double类型
+        addressFromLng:
+          displayName: addressFromLng
+          type: string
+          example: 128.8
+          required: true
+          description: 发货地经度，应该是double类型
         addressTo:
           displayName: addressTo
           type: string 
           example: 汉口路55号
           required: true
           description: 收货地
+        addressToLat:
+          displayName: addressToLat
+          type: string
+          example: 38.9
+          required: true
+          description: 收货地纬度，应该是double类型
+        addressToLng:
+          displayName: addressTo
+          type: string
+          example: 128.8
+          required: true
+          description: 收货地经度，应该是double类型
         fromContactName:
           displayName: fromContactName
           description: 发货地联系人姓名
