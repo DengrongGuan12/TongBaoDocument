@@ -283,6 +283,32 @@ version: 0.0.3
                   "errorMsg": 失败原因
                 }
         401:
+  /auth/deleteMessage: 
+    description: 删除消息
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 1
+          required: true
+          description: 消息的id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+        401:
   /auth/showAccount:
     description: 查看账单
     post:
@@ -324,6 +350,32 @@ version: 0.0.3
                 }
   /auth/recharge:
     description: 充值
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        money:
+          displayName: money
+          type: integer
+          example: 23.3
+          required: true
+          description: 充值金额,因为这个工具不支持double,所以暂且写成int
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功)
+                  "errorMsg": 失败的原因 
+                }
+        401:
+  /auth/withdraw:
+    description: 提现
     post:
       queryParameters:
         token:
