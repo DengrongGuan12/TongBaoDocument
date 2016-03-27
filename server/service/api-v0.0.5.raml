@@ -532,6 +532,27 @@ version: 0.0.3
                   "errorMsg": 失败原因
                 }
         401:
+  /auth/getDriversPosition:
+    description: 获取所有司机目前最新的位置
+    post: 
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {
+                    "result":0(失败)1(成功),
+                    "data":[{"driver_id":司机id,"collect_time":采集的时间点,"receive_time":接收到的时间点,"lat":纬度,"lng":经度},{"driver_id":司机id,"collect_time":采集的时间点,"receive_time":接收到的时间点,"lat":纬度,"lng":经度}...], 
+                    "errorMsg":失败原因
+                  }
+          401:
   /auth/placeOrder:
     description: 下单
     post:
@@ -1256,6 +1277,42 @@ version: 0.0.3
                   "errorMsg": 失败的原因	
                 }
         401:
+  /auth/updateMyPostion:
+    description: 更新司机位置
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        collectTime:
+          displayName: collectTime
+          type: string
+          example: 2015-11-11 11:11:11
+          required: true
+          description: 收集位置的时间点
+        lat:
+          displayName: lat
+          example: 38.8737483
+          required: true
+          description: 纬度
+        lng:
+          displayName: lng
+          example: 128.8737483
+          required: true
+          description: 经度
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "errorMsg": 失败的原因	
+                }
+        401:
   /auth/showAllOrders:
     description: 显示所有未被抢到的订单,根据起点终点筛选,起点终点的格式要尽快由百度地图确定,暂时定为string,查找string相同的起点终点
     post:
@@ -1322,4 +1379,4 @@ version: 0.0.3
                           "toContactName":终点联系人姓名,"toContactPhone":终点联系人号码,"loadTime":装车时间,"state":订单目前的状态
                           0:尚未被抢1:已经被抢，正在进行2:进行中取消，正在等待司机确认4:已经完成}
                 }
-        401:   
+        401: 
