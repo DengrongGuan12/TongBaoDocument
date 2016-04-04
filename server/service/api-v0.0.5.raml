@@ -400,6 +400,27 @@ version: 0.0.3
                   "errorMsg": 失败的原因 
                 }
         401:
+  /auth/getMoney:
+    description: 获取用户当前余额
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result": 0(失败),1(成功),
+                  "data":{"money":30}
+                  "errorMsg": 失败的原因 
+                }
+        401:
 /shipper:
   /auth/getFrequentDrivers:
     description: 获取常用司机列表
