@@ -283,6 +283,26 @@ version: 0.0.3
                   "errorMsg": 失败原因
                 }
         401:
+  /addFeedback:
+    description: 发表反馈
+    post:
+      queryParameters:
+        content:
+          displayName: content
+          type: string
+          example: qweqwe
+          required: true
+          description: 反馈内容
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+        401:
   /auth/deleteMessage: 
     description: 删除消息
     post:
@@ -332,6 +352,43 @@ version: 0.0.3
                       "order"(只有type为2,3,4时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
                       },
                       {},...]
+                } 
+        401:
+  /auth/getAccountByMonth:
+    description: 按月度查看账单
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        year:
+          displayName: year
+          type: integer
+          example: 2015
+          required: true
+          description: 年
+        month:
+          displayName: month
+          type: integer
+          example: 12
+          required: true
+          description: 月
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功)
+                  "data":{"accountList":[
+                      {
+                      "type":(账单类型)0表示充值 1表示提现 2表示支付 3表示退款 4表示到帐, "time":(交易时间), "money":12(金额),
+                      "order"(只有type为2,3,4时才有该值):{"id":1,"addressFrom":开始地点,"addressTo":终止地点}
+                      },
+                      {},...],"totalIn":总收入,"totalOut":总支出}
                 } 
         401:
   /getAllTruckTypes:
@@ -460,8 +517,8 @@ version: 0.0.3
               example: |
                 {
                   "result":0(失败),1(成功),
-                  "data":[{"lat":1,"name":12345,"lng":10},
-                          {"lat":2,"name":12345,"lng":10},{}...] 
+                  "data":[{"lat":1,"name":12345,"lng":10,"id":唯一的id,"contactName":联系人姓名,"contactPhone":联系人手机号},
+                          {"lat":2,"name":12345,"lng":10,"id":唯一的id,"contactName":联系人姓名,"contactPhone":联系人手机号},{}...] 
                 }
         401:
   /auth/addFrequentDriver:
@@ -480,6 +537,32 @@ version: 0.0.3
           example: 1
           required: true
           description: 司机id，先根据手机号搜索得到的司机id
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+        401:
+  /auth/deleteFrequentDriver:
+    description: 删除常用司机
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer 
+          example: 1
+          required: true
+          description: 司机id
       responses:
         200:
           body:
@@ -543,6 +626,94 @@ version: 0.0.3
           type: string
           example: 254.2
           description: 经度 （double类型）
+        contactName:
+          displayName: contactName
+          type: string
+          example: guandengonre
+          description: 联系人姓名
+        contactPhone:
+          displayName: contactPhone
+          type: string
+          example: 159505073745
+          description: 联系方式
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+        401:
+  /auth/editFrequentAddress:
+    description: 修改常用地址
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 1
+          required: true
+          description: 常用地址id
+        address:
+          displayName: address
+          type: string
+          example: 鼓楼区
+          required: true
+          description: 地址字符串，后面可能要根据百度地图提供的接口添加经纬度坐标
+        lat:
+          displayName: lat
+          type: string
+          example: 25.36
+          description: 维度（double类型）
+        lng:
+          displayName: lng
+          type: string
+          example: 254.2
+          description: 经度 （double类型）
+        contactName:
+          displayName: contactName
+          type: string
+          example: guandengonre
+          description: 联系人姓名
+        contactPhone:
+          displayName: contactPhone
+          type: string
+          example: 159505073745
+          description: 联系方式
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "errorMsg": 失败原因
+                }
+        401:
+  /auth/deleteFrequentAddress:
+    description: 删除常用地址
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 用于识别用户
+        id:
+          displayName: id
+          type: integer
+          example: 1
+          required: true
+          description: 常用地址id
       responses:
         200:
           body:
