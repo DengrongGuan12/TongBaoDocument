@@ -303,6 +303,39 @@ version: 0.0.3
                   "errorMsg": 失败原因
                 }
         401:
+  /getBannerInfo:
+    description: 获取首页轮播图片
+    post:
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(失败),1(成功),
+                  "data":[{"imgUrl":adfasdf,"targetUrl":sdfsdf},{"imgUrl":adfasdf,"targetUrl":sdfsdf},..]
+                  "errorMsg": 失败原因
+                }
+        401:
+  /tokenValid:
+    description: 判断某个token是否有效
+    post:
+      queryParameters:
+        token:
+          displayName: token
+          type: string 
+          example: sdfs234rrjkn2IFO
+          required: true
+          description: 需要验证的token
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "result":0(无效),1(有效)
+                }
+        401:
   /auth/deleteMessage: 
     description: 删除消息
     post:
@@ -496,8 +529,8 @@ version: 0.0.3
               example: |
                 {
                   "result":0(失败),1(成功),
-                  "data":[{"id":1,"nickName":昵称,"phoneNum":12345},
-                          {"id":2,"nickName":昵称,"phoneNum":12345},{}...] 
+                  "data":[{"id":1,"nickName":昵称,"phoneNum":12345,"iconUrl"},
+                          {"id":2,"nickName":昵称,"phoneNum":12345,"iconUrl"},{}...] 
                 }
         401:
   /auth/getFrequentAddresses:
